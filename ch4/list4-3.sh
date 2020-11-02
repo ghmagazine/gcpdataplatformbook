@@ -1,5 +1,3 @@
-#!/bin/bash
-
 # リスト4-3. テーブルデータのエクスポート
 # firebase-public-project:analytics_153293282.events_20181001という
 # BigQueryテーブルのデータ（Firebaseデモプロジェクトの公開サンプルデータ）を、
