@@ -1,5 +1,3 @@
-#!/bin/bash
-
 # リスト4-4. BigQueryのデータセットの作成
 # gcpbook_ch4という名前のBigQueryのデータセットを、
 # US マルチリージョンに作成します。
