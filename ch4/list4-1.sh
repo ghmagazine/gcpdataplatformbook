@@ -1,5 +1,3 @@
-#!/bin/bash
-
 # リスト4-1. DataflowとDataprocのAPIの有効化
 # 以下のプロダクトのAPIを有効にします。
 # - Dataflow
