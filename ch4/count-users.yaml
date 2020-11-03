@@ -1,4 +1,4 @@
-# リスト4-50. Dataprocワークフローテンプレートの定義ファイル、count-users.yaml
+# リスト4-48. Dataprocワークフローテンプレートの定義ファイル、count-users.yaml
 jobs:
 - pysparkJob:
     args:

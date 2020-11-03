@@ -1,5 +1,6 @@
-# リスト4-28. ETL処理を実施するBeamパイプラインが定義されたソースコード、etl.py
+# ETL処理を実施するBeamパイプラインが定義されたソースコード、etl.py
 
+# リスト4-28. 各種Pythonモジュールのインポート
 import argparse
 import json
 import logging
@@ -10,6 +11,7 @@ from apache_beam.options.pipeline_options import GoogleCloudOptions
 from apache_beam.options.pipeline_options import PipelineOptions
 
 
+# リスト4-29. 変数_DAU_TABLE_SCHEMAの定義
 # 書き込み先のBigQueryのテーブルgcpbook_ch4.dauのスキーマ定義
 _DAU_TABLE_SCHEMA = {
     'fields': [
@@ -20,11 +22,12 @@ _DAU_TABLE_SCHEMA = {
 }
 
 
+# リスト4-30. クラスCountUsersFnの定義
 class CountUsersFn(beam.CombineFn):
     """課金ユーザと無課金ユーザの人数を集計する。"""
     def create_accumulator(self):
         """課金ユーザと無課金ユーザの人数を保持するaccumulatorを作成して返却する。
-        
+
         Returns:
           課金ユーザと無課金ユーザの人数を表すタプル(0, 0)
         """
@@ -36,7 +39,7 @@ class CountUsersFn(beam.CombineFn):
         Args:
           accumulator: 課金ユーザと無課金ユーザの人数を表すタプル（現在の中間結果）
           is_paid_user: 課金ユーザであるか否かを表すフラグ
-        
+
         Returns:
           加算後の課金ユーザと無課金ユーザの人数を表すタプル
         """
@@ -48,10 +51,10 @@ class CountUsersFn(beam.CombineFn):
 
     def merge_accumulators(self, accumulators):
         """複数のaccumulatorを単一のaccumulatorにマージした結果を返却する。
-        
+
         Args:
           accumulators: マージ対象の複数のaccumulator
-        
+
         Returns:
           マージ後のaccumulator
         """
@@ -60,10 +63,10 @@ class CountUsersFn(beam.CombineFn):
 
     def extract_output(self, accumulator):
         """集計後の課金ユーザと無課金ユーザの人数を返却する。
-        
+
         Args:
           accumulator: 課金ユーザと無課金ユーザの人数を表すタプル
-        
+
         Returns:
           集計後の課金ユーザと無課金ユーザの人数を表すタプル
         """
@@ -72,6 +75,7 @@ class CountUsersFn(beam.CombineFn):
 
 def run():
     """メイン処理のエントリポイント。パイプラインを定義して実行する。"""
+    # リスト4-31. コマンドライン引数のパースと変数の設定
     # コマンドライン引数をパースして、パイプライン実行用のオプションを生成する。
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -90,6 +94,7 @@ def run():
 
     # パイプラインを定義して実行する。
     with beam.Pipeline(options=pipeline_options) as p:
+        # リスト4-32. user_pseudo_idの一覧の抽出
         # Cloud Storage からユーザ行動ログを読み取り、user_pseudo_idの一覧を
         # 抽出する。
         user_pseudo_ids = (
@@ -107,6 +112,7 @@ def run():
                 lambda user_pseudo_id: (user_pseudo_id, None))
         )
 
+        # リスト4-33. ユーザ情報の一覧の取得
         # BigQueryのユーザ情報を保管するテーブルgcpbook_ch4.usersからユーザ情報の
         # 一覧を取得する。
         users = (
@@ -122,6 +128,7 @@ def run():
                 lambda user: (user['user_pseudo_id'], user['is_paid_user']))
         )
 
+        # リスト4-34. データの結合結果のテーブルへの書き込み
         # 前工程で作成した2つのPCollection user_pseudo_idsとusersを結合し、
         # 集計して、課金ユーザと無課金ユーザそれぞれの人数を算出して、その結果をBigQuery
         # のテーブルgcpbook_ch4.dauへ書き込む。
