@@ -1,4 +1,4 @@
-# リスト4-40. ETL処理を実施するSparkアプリケーションが定義されたソースコード、etl_spark.py
+# ETL処理を実施するSparkアプリケーションが定義されたソースコード、etl_spark.py
 
 import argparse
 
