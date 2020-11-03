@@ -1,4 +1,4 @@
-# リスト4-28. ETL処理を実施するBeamパイプラインが定義されたソースコード、etl.py
+# ETL処理を実施するBeamパイプラインが定義されたソースコード、etl.py
 
 import argparse
 import json
