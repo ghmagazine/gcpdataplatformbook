@@ -1,5 +1,3 @@
-# リスト5-4. ELT処理を実行するDAGが定義されたスクリプトファイル、count_users.py
-
 import datetime
 import os
 
