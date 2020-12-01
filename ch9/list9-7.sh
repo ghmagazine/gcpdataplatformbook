@@ -1,12 +1,7 @@
-# USマルチリージョンに、[プロジェクト名]-gcpbook-ch9という名前のバケットを作成
-gsutil mb -l US gs://$(gcloud config get-value project)-gcpbook-ch9/
+# mv_demoというデータセットを作成
+bq mk --dataset $(gcloud config get-value project):mv_demo
 
-# BigQueryの一般公開データセット「bbc_news」の「fulltext」テーブルの
-# データをCloud Storageの指定バケットに出力
-bq extract bigquery-public-data:bbc_news.fulltext \
-gs://$(gcloud config get-value project)-gcpbook-ch9/bbc_news_fulltext.csv
-
-# 出力ファイルの存在確認
-# gs://[プロジェクト名]-gcpbook-ch9/bbc_news_fulltext.csv と表示されたら正常
-gsutil ls gs://$(gcloud config get-value project)-gcpbook-ch9/bbc_news_fulltext.csv
+# 一般公開データセットのテーブル311_service_requestsを上のデータセットへコピー
+bq cp bigquery-public-data:new_york_311.311_service_requests \
+$(gcloud config get-value project):mv_demo.311_service_requests
 

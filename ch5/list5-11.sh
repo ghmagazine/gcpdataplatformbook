@@ -1,5 +1,7 @@
-# リスト5-11. DAGフォルダへのファイルのアップロード
-# ファイルcount_users.pyを、Cloud Composerの環境のDAGのフォルダへアップロードします。
-gcloud composer environments storage dags import \
-  --environment gcpbook-ch5 --location us-central1 \
-  --source count_users.py
+# リスト5-11. dauテーブルのスキーマ定義の確認
+# 「日別の、課金ユーザと無課金ユーザそれぞれのユニークユーザ数」を
+# 保管するテーブルgcpbook_ch5.dauのスキーマ定義を確認します。
+bq show \
+  --schema \
+  --format=prettyjson \
+  gcpbook_ch5.dau

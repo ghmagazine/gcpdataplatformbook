@@ -1,0 +1,38 @@
+# リスト5-48. Dataprocワークフローテンプレートの定義ファイル、count-users.yaml
+jobs:
+- pysparkJob:
+    args:
+    - BUCKET
+    - DT
+    jarFileUris:
+    - gs://spark-lib/bigquery/spark-bigquery-latest.jar
+    mainPythonFileUri: MAIN_FILE
+  stepId: count-users
+placement:
+  managedCluster:
+    clusterName: count-users
+    config:
+      masterConfig:
+        machineTypeUri: n1-standard-2
+        diskConfig:
+          bootDiskSizeGb: 50
+      softwareConfig:
+        imageVersion: '1.4'
+      workerConfig:
+        machineTypeUri: n1-standard-2
+        diskConfig:
+          bootDiskSizeGb: 50
+        numInstances: 2
+parameters:
+  - description: bucket
+    fields:
+    - jobs['count-users'].pysparkJob.args[0]
+    name: BUCKET
+  - description: dt
+    fields:
+    - jobs['count-users'].pysparkJob.args[1]
+    name: DT
+  - description: mainFile
+    fields:
+    - jobs['count-users'].pysparkJob.mainPythonFileUri
+    name: MAIN_FILE

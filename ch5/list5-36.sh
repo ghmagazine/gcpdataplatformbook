@@ -1,4 +1,4 @@
-# リスト5-17. dauテーブルへのデータ挿入の確認
+# リスト5-36. dauテーブルへのデータ挿入の確認
 # テーブルgcpbook_ch5.dauに正常にデータが挿入されたことを確認します。
 bq --location=us query \
   --nouse_legacy_sql \
