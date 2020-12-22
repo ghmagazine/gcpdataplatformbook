@@ -36,21 +36,21 @@ with airflow.DAG(
     # 取り込むタスクを定義する。
     load_events = gcs_to_bq.GoogleCloudStorageToBigQueryOperator(
         task_id='load_events',
-        bucket=os.environ.get('PROJECT_ID') + '-gcpbook-ch4',
+        bucket=os.environ.get('PROJECT_ID') + '-gcpbook-ch5',
         source_objects=['data/events/{{ ds_nodash }}/*.json.gz'],
-        destination_project_dataset_table='gcpbook_ch4.work_events',
+        destination_project_dataset_table='gcpbook_ch5.work_events',
         source_format='NEWLINE_DELIMITED_JSON'
     )
 
-    # リスト6-8. gcpbook_ch4.dauテーブルへの書き込みタスクの定義
+    # リスト6-8. gcpbook_ch5.dauテーブルへの書き込みタスクの定義
     # BigQueryの作業用テーブルとユーザ情報テーブルを結合し、課金ユーザと
-    # 無課金ユーザそれぞれのユーザ数を算出して、結果をgcpbook_ch4.dau
+    # 無課金ユーザそれぞれのユーザ数を算出して、結果をgcpbook_ch5.dau
     # テーブルへ書き込むタスクを定義する。
     insert_dau = bigquery_operator.BigQueryOperator(
         task_id='insert_dau',
         use_legacy_sql=False,
         sql="""
-            insert gcpbook_ch4.dau
+            insert gcpbook_ch5.dau
             select
                 date('{{ ds }}') as dt
             ,   countif(u.is_paid_user) as paid_users
@@ -60,10 +60,10 @@ with airflow.DAG(
                     select distinct
                         user_pseudo_id
                     from
-                        gcpbook_ch4.work_events
+                        gcpbook_ch5.work_events
                 ) e
                     inner join
-                        gcpbook_ch4.users u
+                        gcpbook_ch5.users u
                     on
                         u.user_pseudo_id = e.user_pseudo_id
         """
@@ -74,7 +74,7 @@ with airflow.DAG(
     delete_work_table = \
         bigquery_table_delete_operator.BigQueryTableDeleteOperator(
             task_id='delete_work_table',
-            deletion_dataset_table='gcpbook_ch4.work_events'
+            deletion_dataset_table='gcpbook_ch5.work_events'
         )
 
     # リスト6-10. タスクの依存関係の定義
