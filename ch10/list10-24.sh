@@ -1,8 +1,5 @@
-# Dataflowのジョブを実行するコマンド
-# 実行するプロジェクト、ジョブ名、リージョン、実行サービス、
-# 入力となるサブスクリプション、出力のBigQueryデータセット名
-# をオプションに指定しています。
-python nyc_taxi_streaming_analytics1.py \
+python nyc_taxi_streaming_analytics2.py \
+--update \
 --project $(gcloud config get-value project) \
 --job_name=taxirides-realtime \
 --region='us-central1' \
