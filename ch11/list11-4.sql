@@ -1,4 +1,3 @@
--- リスト10-4. BigQuery MLによる機械学習モデルの構築
 -- ロジスティック回帰のモデル構築
 CREATE MODEL `bqml.model` -- CREATE MODELステートメントによるモデル名の宣言
 OPTIONS(model_type='logistic_reg') AS -- モデルとしてロジスティック回帰を選択

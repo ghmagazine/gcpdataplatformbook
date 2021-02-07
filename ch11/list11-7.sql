@@ -1,4 +1,3 @@
--- リスト10-7. AutoML Tablesに利用するビュー
 CREATE VIEW `automl.gaview`
 AS
 SELECT

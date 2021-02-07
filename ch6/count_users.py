@@ -1,4 +1,4 @@
-# リスト6-4. 各種Pythonモジュールのインポート
+# リスト6-1. 各種Pythonモジュールのインポート
 import datetime
 import os
 
@@ -8,7 +8,7 @@ from airflow.contrib.operators import bigquery_operator, \
 import pendulum
 
 
-# リスト6-5. DAG内のオペレータ共通のパラメータの定義
+# リスト6-2. DAG内のオペレータ共通のパラメータの定義
 # DAG内のオペレータ共通のパラメータを定義する。
 default_args = {
     'owner': 'gcpbook',
@@ -22,7 +22,7 @@ default_args = {
     'start_date': pendulum.today('Asia/Tokyo').add(hours=2)
 }
 
-# リスト6-6. DAGの定義
+# リスト6-3. DAGの定義
 # DAGを定義する。
 with airflow.DAG(
         'count_users',
@@ -31,7 +31,7 @@ with airflow.DAG(
         schedule_interval=datetime.timedelta(days=1),
         catchup=False) as dag:
 
-    # リスト6-7. ユーザ行動ログ取り込みタスクの定義
+    # リスト6-4. ユーザ行動ログ取り込みタスクの定義
     # Cloud Storage上のユーザ行動ログをBigQueryの作業用テーブルへ
     # 取り込むタスクを定義する。
     load_events = gcs_to_bq.GoogleCloudStorageToBigQueryOperator(
@@ -42,7 +42,7 @@ with airflow.DAG(
         source_format='NEWLINE_DELIMITED_JSON'
     )
 
-    # リスト6-8. gcpbook_ch5.dauテーブルへの書き込みタスクの定義
+    # リスト6-5. gcpbook_ch5.dauテーブルへの書き込みタスクの定義
     # BigQueryの作業用テーブルとユーザ情報テーブルを結合し、課金ユーザと
     # 無課金ユーザそれぞれのユーザ数を算出して、結果をgcpbook_ch5.dau
     # テーブルへ書き込むタスクを定義する。
@@ -69,7 +69,7 @@ with airflow.DAG(
         """
     )
 
-    # リスト6-9. 作業用テーブルを削除するタスクの定義
+    # リスト6-6. 作業用テーブルを削除するタスクの定義
     # BigQueryの作業用テーブルを削除するタスクを定義する。
     delete_work_table = \
         bigquery_table_delete_operator.BigQueryTableDeleteOperator(
@@ -77,6 +77,6 @@ with airflow.DAG(
             deletion_dataset_table='gcpbook_ch5.work_events'
         )
 
-    # リスト6-10. タスクの依存関係の定義
+    # リスト6-7. タスクの依存関係の定義
     # 各タスクの依存関係を定義する。
     load_events >> insert_dau >> delete_work_table

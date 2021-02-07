@@ -1,7 +1,9 @@
+# リスト9-4. ビューファイルのビューの名称と参照テーブル設定部分
 # ①ビュー名の定義
 view: requests {
   sql_table_name: `looker_demo.new_york_311_service_requests`;;
 
+  # リスト9-5. ビューファイルのディメンション設定部分
   # ②ディメンジョンの定義
   dimension: complaint_type {
     type: string
@@ -13,6 +15,7 @@ view: requests {
     sql: ${closed_raw} IS NOT NULL ;;
   }
 
+  # リスト9-6. ビューファイルのメジャー設定部分
   # ②メジャーの定義
   measure: count {
     type: count
