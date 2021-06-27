@@ -1,4 +1,3 @@
--- リスト10-8. 推論用データとなるビューの作成
 CREATE VIEW `automl.gaview_test`
 AS
 -- 推論のため目的変数は不要

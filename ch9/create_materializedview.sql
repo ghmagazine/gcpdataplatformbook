@@ -1,3 +1,4 @@
+-- リスト9-7. マテリアライズドビューを作成するクエリ
 -- マテリアライズドビューを作成する際のDDLステートメント
 CREATE MATERIALIZED VIEW
   `[your-project-id].mv_demo.daily` AS

@@ -1,3 +1,4 @@
+-- リスト9-8. 元テーブルを参照して集計するクエリ
 SELECT
   TIMESTAMP_TRUNC(created_date, DAY) AS created_date,
   borough,

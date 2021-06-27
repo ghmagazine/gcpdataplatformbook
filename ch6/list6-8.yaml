@@ -1,0 +1,19 @@
+# リスト6-8. WorkflowsのYAMLの例
+- step1cloudrunPost:
+    call: http.get
+    args:
+        url: https://yutah-12345.a.run.app
+        auth:
+            type: OIDC
+    result: responseValue_run
+- step2cloudFunctionsPost:
+    call: http.post
+    args:
+        url: https://asia-northeast1-yutah-sample.cloudfunctions.net/function1
+        auth:
+            type: OIDC
+        body:
+            message: "Cloud Functionsのfunction1に対してPostをしてみます"
+            post_value: responseValue_run
+    result: responseValue_functions
+- next: end

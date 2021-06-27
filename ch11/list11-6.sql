@@ -1,4 +1,3 @@
--- リスト10-6. Bigquery MLによる推論
 SELECT
   *
 FROM
